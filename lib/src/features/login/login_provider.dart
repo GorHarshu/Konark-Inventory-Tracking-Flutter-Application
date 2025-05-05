@@ -8,6 +8,7 @@ import 'package:konark_inventory_tracking_flutter_app/src/helper/snackbar.dart';
 
 class LoginProvider extends ChangeNotifier {
   bool isLoading = false;
+  bool isAPICalling = false;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   initAllVars() {
@@ -20,19 +21,27 @@ class LoginProvider extends ChangeNotifier {
     Map<String, String> bodyParms = {
       'email': emailController.text,
       'password': passwordController.text,
+      "is_running_on_mobile": "true",
     };
+    print('bodyParms: $bodyParms');
 
     try {
       var response = await post(
         Uri.parse('$finalUrl/login'),
+        headers: {
+          'Accept': 'application/json',
+          "Content-Type": "application/json",
+          "Connection": "application/json",
+        },
         body: json.encode(bodyParms),
-        headers: Auth.commonHeader,
       );
 
-      print('auth cmnHeader${Auth.commonHeader}');
       var data = jsonDecode(response.body.toString());
 
-      print(data);
+      print('response: ${response.statusCode}');
+      print('response: ${response.body.toString()}');
+
+      print('data: $data');
 
       if (response.statusCode == 200) {
         print('if executed');
@@ -46,20 +55,19 @@ class LoginProvider extends ChangeNotifier {
         Auth.roleId = data['role']['id'].toString();
         Auth.role = data['role']['name'].toString();
 
-        print("Auth.accestoken${Auth.accestoken}");
-        print("Auth.userID${Auth.userID}");
-        print("Auth.name${Auth.name}");
-        print("Auth.email${Auth.email}");
-        print("Auth.whatsappNumber${Auth.whatsappNumber}");
-        print("Auth.empCode${Auth.empCode}");
-        print("Auth.roleId${Auth.roleId}");
-        print("Auth.role${Auth.role}");
+        print("Auth.accestoken ${Auth.accestoken}");
+        print("Auth.userID ${Auth.userID}");
+        print("Auth.name ${Auth.name}");
+        print("Auth.email ${Auth.email}");
+        print("Auth.whatsappNumber ${Auth.whatsappNumber}");
+        print("Auth.empCode ${Auth.empCode}");
+        print("Auth.roleId ${Auth.roleId}");
+        print("Auth.role  ${Auth.role}");
 
         Auth.commonHeader = {
-          'Authorization': 'Bearer ${Auth.accestoken}',
+          'token': '${Auth.accestoken}',
           'Accept': 'application/json',
           "Content-Type": "application/json",
-          'origin': 'https://mobile.aeonxus.digital',
           "Connection": "application/json",
         };
         await storeUserData(
@@ -78,8 +86,10 @@ class LoginProvider extends ChangeNotifier {
       } else {
         print('else executed');
         if (response.statusCode != 200) {
-          return data;
+          print('second if executed');
+          return data['detail'].toString();
         } else {
+          print('second else executed');
           return 'false';
         }
       }

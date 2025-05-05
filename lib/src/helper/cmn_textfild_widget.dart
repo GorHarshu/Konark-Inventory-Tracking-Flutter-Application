@@ -29,7 +29,11 @@ class CommonTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       maxLength: maxlength,
-
+      style: GoogleFonts.inter(
+        color: Colors.white,
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+      ),
       controller: controller,
       obscureText: obscureText,
       keyboardType: keyboardType,
@@ -40,17 +44,21 @@ class CommonTextFormField extends StatelessWidget {
       decoration: InputDecoration(
         suffixIcon: suffixIcon,
         counterText: '',
-        labelText: hintText,
-        labelStyle: GoogleFonts.poppins(color: Colors.grey, fontSize: 14),
+        hintText: hintText,
+        hintStyle: GoogleFonts.inter(
+          color: Colors.grey,
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
+        ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(color: Color(0xfffD9DCEC)),
+          borderSide: BorderSide(color: Color(0xFFFFFFFFFF)),
         ),
         contentPadding: EdgeInsets.all(15),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(
-            color: Color(0xFFFFed6508), // Your border color
+            color: Color(0xFFFFFFFFFF), // Your border color
             width: 1.5, // Increase this value for a thicker border
           ),
         ),

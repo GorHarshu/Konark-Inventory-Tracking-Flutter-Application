@@ -4,7 +4,7 @@ const String baseUrl = "https://dev-api.konark.aeonx.digital";
 // const String baseUrl = "https://api.konark.aeonx.digital";
 
 const String subUrl = '/api';
-const String finalUrl = '$baseUrl$subUrl';
+const String finalUrl = '$baseUrl';
 
 class Auth {
   static String? userID;
@@ -18,7 +18,7 @@ class Auth {
   static String? roleId;
 
   static Map<String, String>? commonHeader = {
-    'Authorization': 'Bearer ${Auth.accestoken}',
+    'token': '${Auth.accestoken}',
     'Accept': 'application/json',
     "Content-Type": "application/json",
     "Connection": "application/json",

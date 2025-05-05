@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
+import 'package:konark_inventory_tracking_flutter_app/src/features/homepage/home_provider.dart';
 import 'package:konark_inventory_tracking_flutter_app/src/features/login/login_provider.dart';
 import 'package:konark_inventory_tracking_flutter_app/src/features/splashscreen/splashscreen.dart';
 import 'package:konark_inventory_tracking_flutter_app/src/helper/connectivity.dart';
@@ -42,6 +43,7 @@ class _MainAppState extends State<MainApp> {
     getInfromationInternet();
     setState(() {});
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +51,9 @@ class _MainAppState extends State<MainApp> {
       providers: [
         ChangeNotifierProvider<LoginProvider>(
           create: (context) => LoginProvider(),
+        ),
+        ChangeNotifierProvider<HomeProvider>(
+          create: (context) => HomeProvider(),
         ),
       ],
       child: MaterialApp(
