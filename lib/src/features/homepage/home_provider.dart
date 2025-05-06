@@ -5,6 +5,7 @@ import 'package:http/http.dart';
 import 'package:konark_inventory_tracking_flutter_app/src/helper/api.dart';
 import 'package:konark_inventory_tracking_flutter_app/src/helper/snackbar.dart';
 import 'package:konark_inventory_tracking_flutter_app/src/modal/dashcount_modal.dart';
+import 'package:konark_inventory_tracking_flutter_app/src/modal/runningPO_modal.dart';
 
 class HomeProvider extends ChangeNotifier {
   bool isLoading = false;
@@ -30,5 +31,31 @@ class HomeProvider extends ChangeNotifier {
     } catch (e) {
       setSnackbar('Something went wrong', context, 2);
     }
+  }
+
+  List<RunningAssemblyLines> runningAssemblyLinesList = [];
+
+  Future<void> getRunningPO(BuildContext context) async {
+    var url = Uri.parse('$finalUrl/dashboard/dashboard');
+    print('URL  : $url');
+    var response = await get(url, headers: Auth.commonHeader);
+    print('Auth.commonHeader : ${Auth.commonHeader}');
+    var data = jsonDecode(response.body.toString());
+    print('data : $data');
+    print('response : ${response.body.toString()}');
+    print('statusCode : ${response.statusCode}');
+
+    // try {
+    if (response.statusCode == 200) {
+      runningAssemblyLinesList =
+          (data['running_assembly_lines'] as List)
+              .map((e) => RunningAssemblyLines.fromJson(e))
+              .toList();
+    } else {
+      setSnackbar(data['detail'], context, 2);
+    }
+    // } catch (e) {
+    //   setSnackbar('Something went wrong', context, 2);
+    // }
   }
 }
