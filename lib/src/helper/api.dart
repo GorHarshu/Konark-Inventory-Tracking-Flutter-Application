@@ -1,5 +1,7 @@
+//local url
+const String baseUrl = "http://10.201.1.169:8000";
 //dev url
-const String baseUrl = "https://dev-api.konark.aeonx.digital";
+// const String baseUrl = "https://dev-api.konark.aeonx.digital";
 //prd url
 // const String baseUrl = "https://api.konark.aeonx.digital";
 

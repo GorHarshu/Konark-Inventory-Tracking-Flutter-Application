@@ -33,6 +33,7 @@ class _SplashscreenState extends State<Splashscreen> {
   }
 
   navigateToNextScreen() async {
+    // logout();
     Timer(const Duration(milliseconds: 3000), () async {
       final user = await getUserData();
 

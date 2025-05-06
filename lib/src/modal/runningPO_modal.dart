@@ -1,51 +1,126 @@
-
-
-class RunningAssemblyLines {
-  String? assemblyLine;
-  String? jobId;
+class ProductionOrderModal {
   String? productionOrderId;
-  String? plant;
-  String? productionOrderNumber;
-  String? finalGoods;
-  int? completed;
-  int? pending;
-  int? error;
+  String? salesOrderItemId;
+  String? mappingStatus;
+  String? isDispatch;
+  AssemblyLine? assemblyLine;
 
-  RunningAssemblyLines({
-    this.assemblyLine,
-    this.jobId,
+  ProductionOrderModal({
     this.productionOrderId,
-    this.plant,
-    this.productionOrderNumber,
-    this.finalGoods,
-    this.completed,
-    this.pending,
-    this.error,
+    this.salesOrderItemId,
+    this.mappingStatus,
+    this.isDispatch,
+    this.assemblyLine,
   });
 
-  RunningAssemblyLines.fromJson(Map<String, dynamic> json) {
-    assemblyLine = json['assembly_line'];
-    jobId = json['job_id'];
+  ProductionOrderModal.fromJson(Map<String, dynamic> json) {
     productionOrderId = json['production_order_id'];
-    plant = json['plant'];
-    productionOrderNumber = json['production_order_number'];
-    finalGoods = json['final_goods'];
-    completed = json['completed'];
-    pending = json['pending'];
-    error = json['error'];
+    salesOrderItemId = json['sales_order_item_id'];
+    mappingStatus = json['mapping_status'];
+    isDispatch = json['is_dispatch'];
+    assemblyLine =
+        json['assembly_line'] != null
+            ? new AssemblyLine.fromJson(json['assembly_line'])
+            : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['assembly_line'] = this.assemblyLine;
-    data['job_id'] = this.jobId;
     data['production_order_id'] = this.productionOrderId;
-    data['plant'] = this.plant;
-    data['production_order_number'] = this.productionOrderNumber;
-    data['final_goods'] = this.finalGoods;
-    data['completed'] = this.completed;
-    data['pending'] = this.pending;
-    data['error'] = this.error;
+    data['sales_order_item_id'] = this.salesOrderItemId;
+    data['mapping_status'] = this.mappingStatus;
+    data['is_dispatch'] = this.isDispatch;
+    if (this.assemblyLine != null) {
+      data['assembly_line'] = this.assemblyLine!.toJson();
+    }
+    return data;
+  }
+}
+
+class AssemblyLine {
+  String? id;
+  String? name;
+  Plant? plant;
+  LineStage? lineStage;
+
+  AssemblyLine({this.id, this.name, this.plant, this.lineStage});
+
+  AssemblyLine.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    plant = json['plant'] != null ? new Plant.fromJson(json['plant']) : null;
+    lineStage =
+        json['line_stage'] != null
+            ? new LineStage.fromJson(json['line_stage'])
+            : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    if (this.plant != null) {
+      data['plant'] = this.plant!.toJson();
+    }
+    if (this.lineStage != null) {
+      data['line_stage'] = this.lineStage!.toJson();
+    }
+    return data;
+  }
+}
+
+class Plant {
+  String? id;
+  String? name;
+  String? code;
+
+  Plant({this.id, this.name, this.code});
+
+  Plant.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    code = json['code'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['code'] = this.code;
+    return data;
+  }
+}
+
+class LineStage {
+  String? id;
+  String? name;
+  bool? isObjectDetection;
+  bool? isRejectedItemQr;
+  List<String>? productionOrderItemId;
+
+  LineStage({
+    this.id,
+    this.name,
+    this.isObjectDetection,
+    this.isRejectedItemQr,
+    this.productionOrderItemId,
+  });
+
+  LineStage.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    isObjectDetection = json['is_object_detection'];
+    isRejectedItemQr = json['is_rejected_item_qr'];
+    productionOrderItemId = json['production_order_item_id'].cast<String>();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['is_object_detection'] = this.isObjectDetection;
+    data['is_rejected_item_qr'] = this.isRejectedItemQr;
+    data['production_order_item_id'] = this.productionOrderItemId;
     return data;
   }
 }

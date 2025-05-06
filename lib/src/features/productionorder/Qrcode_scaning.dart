@@ -1,15 +1,28 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:konark_inventory_tracking_flutter_app/src/features/productionorder/Image_Capture.dart';
+import 'package:konark_inventory_tracking_flutter_app/src/features/productionorder/po_provider.dart';
+import 'package:konark_inventory_tracking_flutter_app/src/helper/snackbar.dart';
+import 'package:konark_inventory_tracking_flutter_app/src/modal/runningPO_modal.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
 
 class QrcodeScaning extends StatefulWidget {
-  const QrcodeScaning({super.key});
+  ProductionOrderModal productionOrderData;
+  QrcodeScaning({super.key, required this.productionOrderData});
 
   @override
   State<QrcodeScaning> createState() => _QrcodeScaningState();
 }
 
+PoProvider? poProvider;
+
 class _QrcodeScaningState extends State<QrcodeScaning> {
+  @override
+  void initState() {
+    super.initState();
+    poProvider = Provider.of<PoProvider>(context, listen: false);
+  }
+
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
@@ -46,10 +59,39 @@ class _QrcodeScaningState extends State<QrcodeScaning> {
     setState(() {
       this.controller = controller;
     });
-    controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        result = scanData;
-      });
+
+    controller.scannedDataStream.listen((scanData) async {
+      if (scanData.code != null) {
+        setState(() {
+          result = scanData;
+        });
+
+        poProvider!.isLoading = true;
+        setState(() {});
+
+        await poProvider!
+            .scanQrCode(
+              context,
+              scanData.code.toString(),
+              widget.productionOrderData,
+            )
+            .then((value) {
+              print('valuedata $value');
+
+              // Handle the result
+              if (value == 'true') {
+                print('you are here ');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CameraExample()),
+                );
+              } else if (value == 'false') {
+                setSnackbar("Something went wrong", context, 2);
+              } else {
+                setSnackbar(value, context, 2);
+              }
+            });
+      }
     });
   }
 }

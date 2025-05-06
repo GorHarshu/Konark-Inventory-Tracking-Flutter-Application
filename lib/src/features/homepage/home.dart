@@ -66,15 +66,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SizedBox(height: 10),
-                          CMNTextInter(
-                            text: "Dashboard",
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0,
+                            ),
+                            child: CMNTextInter(
+                              text: "Dashboard",
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                           Row(
                             children: [
@@ -229,172 +233,170 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    for (
-                      int i = 0;
-                      i < homeProvider!.runningAssemblyLinesList.length;
-                      i++
-                    )
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ProductionOrder(),
-                              ),
-                            );
-                          },
-                          child: DataTable(
-                            columnSpacing: 10,
-                            columns: [
-                              DataColumn(
-                                label: CMNTextInter(
-                                  text: 'Sr No',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
+
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: DataTable(
+                        columnSpacing: 10,
+                        columns: [
+                          DataColumn(
+                            label: CMNTextInter(
+                              text: 'Sr No',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          DataColumn(
+                            label: CMNTextInter(
+                              text: 'Running Assembly Line',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          DataColumn(
+                            label: CMNTextInter(
+                              text: 'Plant',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          DataColumn(
+                            label: CMNTextInter(
+                              text: 'Production Order No.',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          DataColumn(
+                            label: CMNTextInter(
+                              text: 'Completed',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          DataColumn(
+                            label: CMNTextInter(
+                              text: 'Pending',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          DataColumn(
+                            label: CMNTextInter(
+                              text: 'Error',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                        rows: List.generate(
+                          homeProvider!.runningAssemblyLinesList.length,
+                          (i) => DataRow(
+                            cells: [
+                              DataCell(
+                                Center(
+                                  child: CMNTextInter(
+                                    text: (i + 1).toString(),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               ),
-                              DataColumn(
-                                label: CMNTextInter(
-                                  text: 'Running Assembly Line',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              DataColumn(
-                                label: CMNTextInter(
-                                  text: 'Plant',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              DataColumn(
-                                label: CMNTextInter(
-                                  text: 'Production Order No.',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              DataColumn(
-                                label: CMNTextInter(
-                                  text: 'Completed',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              DataColumn(
-                                label: CMNTextInter(
-                                  text: 'Pending',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              DataColumn(
-                                label: CMNTextInter(
-                                  text: 'Error',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ],
-                            rows: [
-                              DataRow(
-                                cells: [
-                                  DataCell(
-                                    Center(
-                                      child: CMNTextInter(
-                                        text: (i + 1).toString(),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
+                              DataCell(
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (context) => ProductionOrder(
+                                              productionOrderData:
+                                                  homeProvider!
+                                                      .runningAssemblyLinesList[i],
+                                            ),
                                       ),
+                                    );
+                                  },
+                                  child: Center(
+                                    child: CMNTextInter(
+                                      text:
+                                          homeProvider!
+                                              .runningAssemblyLinesList[i]
+                                              .assemblyLine!
+                                              .name
+                                              .toString(),
+                                      fontSize: 14,
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.w400,
+                                      decoration: TextDecoration.underline,
                                     ),
                                   ),
-                                  DataCell(
-                                    Center(
-                                      child: CMNTextInter(
-                                        text:
-                                            homeProvider!
+                                ),
+                              ),
+                              DataCell(
+                                Center(
+                                  child: CMNTextInter(
+                                    text:
+                                        homeProvider!
+                                                    .runningAssemblyLinesList[i]
+                                                    .assemblyLine!
+                                                    .plant!
+                                                    .code !=
+                                                null
+                                            ? homeProvider!
                                                 .runningAssemblyLinesList[i]
                                                 .assemblyLine!
-                                                .toString(),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
-                                  DataCell(
-                                    Center(
-                                      child: CMNTextInter(
-                                        text:
-                                            homeProvider!
-                                                .runningAssemblyLinesList[i]
                                                 .plant!
-                                                .toString(),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
+                                                .code
+                                                .toString()
+                                            : " - ",
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
                                   ),
-                                  DataCell(
-                                    Center(
-                                      child: CMNTextInter(
-                                        text:
-                                            homeProvider!
-                                                .runningAssemblyLinesList[i]
-                                                .productionOrderNumber!
-                                                .toString(),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
+                                ),
+                              ),
+                              DataCell(
+                                Center(
+                                  child: CMNTextInter(
+                                    text: '',
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
                                   ),
-                                  DataCell(
-                                    Center(
-                                      child: CMNTextInter(
-                                        text:
-                                            homeProvider!
-                                                .runningAssemblyLinesList[i]
-                                                .completed!
-                                                .toString(),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
+                                ),
+                              ),
+                              DataCell(
+                                Center(
+                                  child: CMNTextInter(
+                                    text: '',
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
                                   ),
-                                  DataCell(
-                                    Center(
-                                      child: CMNTextInter(
-                                        text:
-                                            homeProvider!
-                                                .runningAssemblyLinesList[i]
-                                                .pending!
-                                                .toString(),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
+                                ),
+                              ),
+                              DataCell(
+                                Center(
+                                  child: CMNTextInter(
+                                    text: '',
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
                                   ),
-                                  DataCell(
-                                    Center(
-                                      child: CMNTextInter(
-                                        text:
-                                            homeProvider!
-                                                .runningAssemblyLinesList[i]
-                                                .error!
-                                                .toString(),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
+                                ),
+                              ),
+                              DataCell(
+                                Center(
+                                  child: CMNTextInter(
+                                    text: '',
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
                                   ),
-                                ],
+                                ),
                               ),
                             ],
                           ),
                         ),
                       ),
-                    SizedBox(height: 20),
+                    ),
+                    SizedBox(height: 100),
                   ],
                 ),
               ),

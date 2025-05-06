@@ -34,6 +34,7 @@ class CMNTextInter extends StatelessWidget {
         color: color,
         fontWeight: fontWeight,
         decoration: decoration,
+        decorationColor: Colors.blue,
       ),
       textAlign: textAlign,
       maxLines: maxLines,

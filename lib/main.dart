@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:konark_inventory_tracking_flutter_app/src/features/homepage/home_provider.dart';
 import 'package:konark_inventory_tracking_flutter_app/src/features/login/login_provider.dart';
+import 'package:konark_inventory_tracking_flutter_app/src/features/productionorder/po_provider.dart';
 import 'package:konark_inventory_tracking_flutter_app/src/features/splashscreen/splashscreen.dart';
 import 'package:konark_inventory_tracking_flutter_app/src/helper/connectivity.dart';
 import 'package:konark_inventory_tracking_flutter_app/src/helper/hive_localstorage.dart';
@@ -43,7 +44,6 @@ class _MainAppState extends State<MainApp> {
     getInfromationInternet();
     setState(() {});
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +55,7 @@ class _MainAppState extends State<MainApp> {
         ChangeNotifierProvider<HomeProvider>(
           create: (context) => HomeProvider(),
         ),
+        ChangeNotifierProvider<PoProvider>(create: (context) => PoProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

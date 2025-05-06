@@ -33,10 +33,10 @@ class HomeProvider extends ChangeNotifier {
     }
   }
 
-  List<RunningAssemblyLines> runningAssemblyLinesList = [];
+  List<ProductionOrderModal> runningAssemblyLinesList = [];
 
   Future<void> getRunningPO(BuildContext context) async {
-    var url = Uri.parse('$finalUrl/dashboard/dashboard');
+    var url = Uri.parse('$finalUrl/mobile_users/${Auth.userID}');
     print('URL  : $url');
     var response = await get(url, headers: Auth.commonHeader);
     print('Auth.commonHeader : ${Auth.commonHeader}');
@@ -45,17 +45,17 @@ class HomeProvider extends ChangeNotifier {
     print('response : ${response.body.toString()}');
     print('statusCode : ${response.statusCode}');
 
-    // try {
-    if (response.statusCode == 200) {
-      runningAssemblyLinesList =
-          (data['running_assembly_lines'] as List)
-              .map((e) => RunningAssemblyLines.fromJson(e))
-              .toList();
-    } else {
-      setSnackbar(data['detail'], context, 2);
+    try {
+      if (response.statusCode == 200) {
+        runningAssemblyLinesList =
+            (data as List)
+                .map((e) => ProductionOrderModal.fromJson(e))
+                .toList();
+      } else {
+        setSnackbar(data['detail'], context, 2);
+      }
+    } catch (e) {
+      setSnackbar('Something went wrong', context, 2);
     }
-    // } catch (e) {
-    //   setSnackbar('Something went wrong', context, 2);
-    // }
   }
 }
