@@ -16,6 +16,7 @@ class UserAdapter extends TypeAdapter<User> {
       reader.readString(),
       reader.readString(),
       reader.readString(),
+      reader.readString(),
     );
   }
 
@@ -30,6 +31,7 @@ class UserAdapter extends TypeAdapter<User> {
     writer.writeString(obj.empCode);
     writer.writeString(obj.role);
     writer.writeString(obj.roleId);
+    writer.writeString(obj.mobileip);
   }
 }
 
@@ -62,6 +64,9 @@ class User extends HiveObject {
   @HiveField(8)
   String roleId;
 
+  @HiveField(9)
+  String mobileip;
+
   User(
     this.userID,
     this.name,
@@ -72,6 +77,7 @@ class User extends HiveObject {
     this.empCode,
     this.role,
     this.roleId,
+    this.mobileip,
   );
 }
 
@@ -85,6 +91,7 @@ Future<void> storeUserData(
   String empCode,
   String role,
   String roleId,
+  String mobileip,
 ) async {
   final userBox = await Hive.openBox<User>('userBox');
   final user = User(
@@ -97,6 +104,7 @@ Future<void> storeUserData(
     empCode,
     role,
     roleId,
+    mobileip,
   );
   userBox.add(user);
 }

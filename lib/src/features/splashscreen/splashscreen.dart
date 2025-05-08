@@ -53,6 +53,7 @@ class _SplashscreenState extends State<Splashscreen> {
         Auth.empCode = user.empCode;
         Auth.roleId = user.roleId;
         Auth.role = user.role;
+        Auth.mobileip = user.mobileip;
 
         print('Auth.accestoken : ${Auth.accestoken}');
 

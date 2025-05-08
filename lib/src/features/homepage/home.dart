@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:konark_inventory_tracking_flutter_app/src/features/homepage/home_provider.dart';
 import 'package:konark_inventory_tracking_flutter_app/src/features/productionorder/view_prdOrder.dart';
 import 'package:konark_inventory_tracking_flutter_app/src/features/splashscreen/splashscreen.dart';
+import 'package:konark_inventory_tracking_flutter_app/src/helper/api.dart';
 import 'package:konark_inventory_tracking_flutter_app/src/helper/genrateTxt.dart';
 import 'package:konark_inventory_tracking_flutter_app/src/helper/session_manger.dart';
-import 'package:konark_inventory_tracking_flutter_app/src/helper/snackbar.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -70,6 +70,9 @@ class _HomeScreenState extends State<HomeScreen> {
       body:
           homeProvider!.isLoading
               ? Center(child: CircularProgressIndicator())
+              : Auth.mobileip !=
+                  homeProvider!.runningAssemblyLinesList[0].mobileIp
+              ? Center(child: Text('You are not authorized To Thius device'))
               : SingleChildScrollView(
                 child:
                     homeProvider!.countList == null

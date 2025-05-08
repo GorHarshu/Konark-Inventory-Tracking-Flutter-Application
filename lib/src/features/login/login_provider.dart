@@ -54,6 +54,7 @@ class LoginProvider extends ChangeNotifier {
         Auth.empCode = data['employee_code'].toString();
         Auth.roleId = data['role']['id'].toString();
         Auth.role = data['role']['name'].toString();
+        Auth.mobileip = data['mobile_ip'].toString();
 
         print("Auth.accestoken ${Auth.accestoken}");
         print("Auth.userID ${Auth.userID}");
@@ -63,6 +64,7 @@ class LoginProvider extends ChangeNotifier {
         print("Auth.empCode ${Auth.empCode}");
         print("Auth.roleId ${Auth.roleId}");
         print("Auth.role  ${Auth.role}");
+        print("Auth.mobile_ip  ${Auth.mobileip}");
 
         Auth.commonHeader = {
           'token': '${Auth.accestoken}',
@@ -80,6 +82,7 @@ class LoginProvider extends ChangeNotifier {
           Auth.empCode!,
           Auth.role!,
           Auth.roleId!,
+          Auth.mobileip!,
         );
 
         return 'true';

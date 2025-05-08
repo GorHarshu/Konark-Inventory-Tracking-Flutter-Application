@@ -17,6 +17,7 @@ class Auth {
   static String? empCode;
   static String? role;
   static String? roleId;
+  static String? mobileip;
 
   static Map<String, String>? commonHeader = {
     'token': '${Auth.accestoken}',

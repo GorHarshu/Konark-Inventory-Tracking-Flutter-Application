@@ -7,6 +7,7 @@ class ProductionOrderModal {
   int? pending;
   int? error;
   String? isDispatch;
+  String? mobileIp;
   AssemblyLine? assemblyLine;
 
   ProductionOrderModal({
@@ -19,6 +20,7 @@ class ProductionOrderModal {
     this.complete,
     this.pending,
     this.error,
+    this.mobileIp,
   });
 
   ProductionOrderModal.fromJson(Map<String, dynamic> json) {
@@ -34,6 +36,7 @@ class ProductionOrderModal {
     complete = json['completed'];
     pending = json['pending'];
     error = json['error'];
+    mobileIp = json['mobile_ip'];
   }
 
   Map<String, dynamic> toJson() {
@@ -49,6 +52,7 @@ class ProductionOrderModal {
     data['completed'] = this.complete;
     data['pending'] = this.pending;
     data['error'] = this.error;
+    data['mobile_ip'] = this.mobileIp;
     return data;
   }
 }
