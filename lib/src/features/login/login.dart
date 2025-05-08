@@ -30,114 +30,118 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: const AssetImage('assets/bg.png'),
-                fit: BoxFit.cover,
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: const AssetImage('assets/bg.png'),
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(14.0),
-              child: Column(
-                children: [
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.2),
-                  CMNTextInter(
-                    text: "Konark",
-                    color: Color(0xfffFFFFFF),
-                    fontSize: 40,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-                  CommonTextFormField(
-                    hintText: 'Enter User Email',
-                    controller: loginProvider!.emailController,
-                  ),
-                  SizedBox(height: 15),
-                  CommonTextFormField(
-                    hintText: 'Enter Password',
-                    controller: loginProvider!.passwordController,
-                    obscureText: !isShowPass,
-                    suffixIcon: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          isShowPass = !isShowPass;
-                        });
-                      },
-                      child: Icon(
-                        isShowPass ? Icons.visibility : Icons.visibility_off,
-                        color: Color(0xfffFFFFFF),
+              child: Padding(
+                padding: const EdgeInsets.all(14.0),
+                child: Column(
+                  children: [
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.2),
+                    CMNTextInter(
+                      text: "Konark",
+                      color: Color(0xfffFFFFFF),
+                      fontSize: 40,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                    CommonTextFormField(
+                      hintText: 'Enter User Email',
+                      controller: loginProvider!.emailController,
+                    ),
+                    SizedBox(height: 15),
+                    CommonTextFormField(
+                      hintText: 'Enter Password',
+                      controller: loginProvider!.passwordController,
+                      obscureText: !isShowPass,
+                      suffixIcon: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isShowPass = !isShowPass;
+                          });
+                        },
+                        child: Icon(
+                          isShowPass ? Icons.visibility : Icons.visibility_off,
+                          color: Color(0xfffFFFFFF),
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 15),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: CMNTextInter(
-                      text: "Forgot Password?",
-                      color: Color(0xfffFFFFFF),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
+                    SizedBox(height: 15),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: CMNTextInter(
+                        text: "Forgot Password?",
+                        color: Color(0xfffFFFFFF),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 15),
+                    SizedBox(height: 15),
 
-                  AppButton(
-                    height: MediaQuery.of(context).size.height * 0.06,
-                    borderRadius: 16,
-                    btnText: 'Login',
-                    textSize: 16,
-                    voidCallBack: () async {
-                      if (loginProvider!.emailController.text.isEmpty) {
-                        setSnackbar("Please Enter Email", context, 2);
-                        return;
-                      } else if (!loginProvider!.emailController.text.contains(
-                            '@',
-                          ) ||
-                          !loginProvider!.emailController.text.contains('.')) {
-                        setSnackbar("Please Enter Valid Email", context, 2);
-                        return;
-                      } else if (loginProvider!
-                          .passwordController
-                          .text
-                          .isEmpty) {
-                        setSnackbar("Please Enter Password", context, 2);
-                        return;
-                      }
-                      loginProvider!.isAPICalling = true;
-                      setState(() {});
-                      await loginProvider!.loginUser(context).then((value) {
-                        loginProvider!.isAPICalling = false;
-                        setState(() {});
-                        if (value == 'true') {
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const HomeScreen(),
-                            ),
-                            (route) => false,
-                          );
-                        } else if (value == 'false') {
-                          setSnackbar("Something went wrong", context, 2);
+                    AppButton(
+                      height: MediaQuery.of(context).size.height * 0.06,
+                      borderRadius: 16,
+                      btnText: 'Login',
+                      textSize: 16,
+                      voidCallBack: () async {
+                        if (loginProvider!.emailController.text.isEmpty) {
+                          setSnackbar("Please Enter Email", context, 2);
                           return;
-                        } else {
-                          setSnackbar(value, context, 2);
+                        } else if (!loginProvider!.emailController.text
+                                .contains('@') ||
+                            !loginProvider!.emailController.text.contains(
+                              '.',
+                            )) {
+                          setSnackbar("Please Enter Valid Email", context, 2);
+                          return;
+                        } else if (loginProvider!
+                            .passwordController
+                            .text
+                            .isEmpty) {
+                          setSnackbar("Please Enter Password", context, 2);
                           return;
                         }
-                      });
-                    },
-                  ),
-                ],
+                        loginProvider!.isAPICalling = true;
+                        setState(() {});
+                        await loginProvider!.loginUser(context).then((value) {
+                          loginProvider!.isAPICalling = false;
+                          setState(() {});
+                          if (value == 'true') {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const HomeScreen(),
+                              ),
+                              (route) => false,
+                            );
+                          } else if (value == 'false') {
+                            setSnackbar("Something went wrong", context, 2);
+                            return;
+                          } else {
+                            setSnackbar(value, context, 2);
+                            return;
+                          }
+                        });
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
 
-          loginProvider!.isAPICalling
-              ? getCircularDesingScreen(context)
-              : Container(),
-        ],
+            loginProvider!.isAPICalling
+                ? getCircularDesingScreen(context)
+                : Container(),
+          ],
+        ),
       ),
     );
   }

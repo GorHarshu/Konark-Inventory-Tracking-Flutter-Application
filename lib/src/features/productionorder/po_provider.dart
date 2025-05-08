@@ -5,9 +5,33 @@ import 'package:http/http.dart';
 import 'package:konark_inventory_tracking_flutter_app/src/helper/api.dart';
 import 'package:konark_inventory_tracking_flutter_app/src/helper/snackbar.dart';
 import 'package:konark_inventory_tracking_flutter_app/src/modal/runningPO_modal.dart';
+import 'package:konark_inventory_tracking_flutter_app/src/modal/sprate_po_modal.dart';
 
 class PoProvider extends ChangeNotifier {
   bool isLoading = false;
+
+  SeprateProductionOrderModal? SpecificPOdata;
+
+  Future<void> getSpecficPO(BuildContext context, String poID) async {
+    var url = Uri.parse('$finalUrl/mobile_users_production_order/${poID}');
+    print('URL  : $url');
+    var response = await get(url, headers: Auth.commonHeader);
+    print('Auth.commonHeader : ${Auth.commonHeader}');
+    var data = jsonDecode(response.body.toString());
+    print('data : $data');
+    print('response : ${response.body.toString()}');
+    print('statusCode : ${response.statusCode}');
+
+    try {
+      if (response.statusCode == 200) {
+        SpecificPOdata = SeprateProductionOrderModal.fromJson(data);
+      } else {
+        setSnackbar(data['detail'], context, 2);
+      }
+    } catch (e) {
+      setSnackbar('Something went wrong', context, 2);
+    }
+  }
 
   Future<String> scanQrCode(
     BuildContext context,
@@ -85,6 +109,47 @@ class PoProvider extends ChangeNotifier {
       }
     } catch (e) {
       print('catch executed');
+      setSnackbar(e.toString(), context, 2);
+      return 'false';
+    }
+  }
+
+  Future<String> getClassification(
+    BuildContext context,
+    String qrcode,
+    String id,
+  ) async {
+    try {
+      var response = await get(
+        Uri.parse(
+          '$finalUrl/mobile_users_production_order/classification_result?production_order_id=$id&qr_code=$qrcode',
+        ),
+        headers: Auth.commonHeader,
+      );
+
+      print(
+        'url ${'$finalUrl/mobile_users_production_order/classification_result?production_order_id=$id&qr_code=$qrcode'}',
+      );
+      print('response: ${response.statusCode}');
+      print('response: ${response.body.toString()}');
+      var data = jsonDecode(response.body.toString());
+
+      print('data: $data');
+
+      if (response.statusCode == 200) {
+        return 'true';
+      } else {
+        print('else executed');
+        if (response.statusCode != 200) {
+          print('second if executed');
+          return data['detail'].toString();
+        } else {
+          print('second else executed');
+          return 'false';
+        }
+      }
+    } catch (e) {
+      print('catch executed ${e.toString()}');
       setSnackbar(e.toString(), context, 2);
       return 'false';
     }

@@ -5,7 +5,6 @@ const String baseUrl = "http://10.201.1.169:8000";
 //prd url
 // const String baseUrl = "https://api.konark.aeonx.digital";
 
-const String subUrl = '/api';
 const String finalUrl = '$baseUrl';
 
 class Auth {

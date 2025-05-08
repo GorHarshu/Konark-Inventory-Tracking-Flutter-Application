@@ -7,6 +7,7 @@ import 'package:konark_inventory_tracking_flutter_app/src/helper/api.dart';
 import 'package:konark_inventory_tracking_flutter_app/src/helper/connectivity.dart';
 import 'package:konark_inventory_tracking_flutter_app/src/helper/genrateTxt.dart';
 import 'package:konark_inventory_tracking_flutter_app/src/helper/hive_localstorage.dart';
+import 'package:konark_inventory_tracking_flutter_app/src/helper/session_manger.dart';
 
 class Splashscreen extends StatefulWidget {
   const Splashscreen({super.key});
@@ -33,7 +34,12 @@ class _SplashscreenState extends State<Splashscreen> {
   }
 
   navigateToNextScreen() async {
-    // logout();
+    if (SessionManager.isSessionExpired()) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Splashscreen()),
+      );
+    }
     Timer(const Duration(milliseconds: 3000), () async {
       final user = await getUserData();
 

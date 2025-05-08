@@ -2,6 +2,10 @@ class ProductionOrderModal {
   String? productionOrderId;
   String? salesOrderItemId;
   String? mappingStatus;
+  String? orderNumber;
+  int? complete;
+  int? pending;
+  int? error;
   String? isDispatch;
   AssemblyLine? assemblyLine;
 
@@ -11,6 +15,10 @@ class ProductionOrderModal {
     this.mappingStatus,
     this.isDispatch,
     this.assemblyLine,
+    this.orderNumber,
+    this.complete,
+    this.pending,
+    this.error,
   });
 
   ProductionOrderModal.fromJson(Map<String, dynamic> json) {
@@ -22,6 +30,10 @@ class ProductionOrderModal {
         json['assembly_line'] != null
             ? new AssemblyLine.fromJson(json['assembly_line'])
             : null;
+    orderNumber = json['order_number'];
+    complete = json['completed'];
+    pending = json['pending'];
+    error = json['error'];
   }
 
   Map<String, dynamic> toJson() {
@@ -33,6 +45,10 @@ class ProductionOrderModal {
     if (this.assemblyLine != null) {
       data['assembly_line'] = this.assemblyLine!.toJson();
     }
+    data['order_number'] = this.orderNumber;
+    data['completed'] = this.complete;
+    data['pending'] = this.pending;
+    data['error'] = this.error;
     return data;
   }
 }

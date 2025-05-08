@@ -7,6 +7,7 @@ import 'package:konark_inventory_tracking_flutter_app/src/features/productionord
 import 'package:konark_inventory_tracking_flutter_app/src/features/splashscreen/splashscreen.dart';
 import 'package:konark_inventory_tracking_flutter_app/src/helper/connectivity.dart';
 import 'package:konark_inventory_tracking_flutter_app/src/helper/hive_localstorage.dart';
+import 'package:konark_inventory_tracking_flutter_app/src/helper/session_manger.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:provider/provider.dart';
 
@@ -17,6 +18,7 @@ void main() async {
       await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDirectory.path);
   Hive.registerAdapter<User>(UserAdapter());
+
   runApp(const MainApp());
 }
 
@@ -32,6 +34,7 @@ class _MainAppState extends State<MainApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    SessionManager.startSession();
     getInfromationInternet();
   }
 
